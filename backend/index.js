@@ -5,6 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const doctorRoutes = require("./routes/doctorRoutes")
+const appointmentRoutes = require("./routes/appointmentRoutes")
 const path = require("path");
 const { errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/ApiError");
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use("/api/doctor", doctorRoutes);
+app.use("/api/appointment", appointmentRoutes);
 
 const mongoUrl = process.env.MONGODB_URL;
 mongoose

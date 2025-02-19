@@ -6,7 +6,7 @@ async function getDoctors() {
     const doctors = await Doctor.find({});
     return doctors;
   } catch (error) {
-    throw new ApiError(401, "error in service");
+    throw new ApiError(404, "error.message");
   }
 }
 
