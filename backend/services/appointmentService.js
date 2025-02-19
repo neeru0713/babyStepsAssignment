@@ -1,4 +1,4 @@
-const Appointment = require("../models/Appointment"); 
+const Appointment = require("../models/Appointment");
 const ApiError = require("../utils/ApiError");
 
 async function getAppointments() {
@@ -10,6 +10,22 @@ async function getAppointments() {
   }
 }
 
+const getAppointmentById = async (id) => {
+  const appointment = await Appointment.findOne({ _id : id});
+  if (!appointment) {
+    throw new ApiError("Appointment not found");
+  }
+  return appointment;
+};
+
+async function createAppointment(appointmentBody) {
+  let newAppointment = new Appointment(appointmentBody);
+  await newAppointment.save();
+  return newAppointment;
+}
+
 module.exports = {
-    getAppointments
+  getAppointments,
+  createAppointment,
+  getAppointmentById,
 };

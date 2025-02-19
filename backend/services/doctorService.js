@@ -1,4 +1,4 @@
-const Doctor = require("../models/Doctor"); 
+const Doctor = require("../models/Doctor");
 const ApiError = require("../utils/ApiError");
 
 async function getDoctors() {
@@ -11,12 +11,16 @@ async function getDoctors() {
 }
 
 async function createDoctor(doctorBody) {
+  try {
     let newDoctor = new Doctor(doctorBody);
     await newDoctor.save();
     return newDoctor;
+  } catch (error) {
+    throw new ApiError(404, "error.message");
   }
+}
 
 module.exports = {
   getDoctors,
-  createDoctor
+  createDoctor,
 };
