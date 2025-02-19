@@ -1,4 +1,4 @@
-const Doctor = require("../models/doctorModel"); 
+const Doctor = require("../models/Doctor"); 
 
 async function getDoctors() {
   try {
@@ -9,6 +9,13 @@ async function getDoctors() {
   }
 }
 
+async function createDoctor(doctorBody) {
+    let newDoctor = new Doctor(doctorBody);
+    await newDoctor.save();
+    return newDoctor;
+  }
+
 module.exports = {
   getDoctors,
+  createDoctor
 };

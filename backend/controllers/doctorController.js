@@ -9,6 +9,21 @@ const getDoctors = async (req, res) => {
   }
 };
 
+const createDoctor = async (req, res) => {
+    try {
+      let newDoctor = await doctorService.createDoctor(req.body);
+      let resObj = {
+        doctor: newDoctor,
+        message: "Created doctor suceesfully",
+      };
+      res.status(201).json(resObj);
+    } catch (error) {
+      console.error("Error during creating doctor:", error);
+      res.status(500).json({ error: error.message });
+    }
+  };
+
 module.exports = {
   getDoctors,
+  createDoctor
 };

@@ -4,4 +4,5 @@ const router = express.Router();
 
 router.get("/", doctorController.getDoctors);
 
+router.post("/", doctorController.createDoctor)
 module.exports = router;
