@@ -1,29 +1,21 @@
 const doctorService = require("../services/doctorService");
+const catchAsync = require("../utils/catchAsync");
 
-const getDoctors = async (req, res) => {
-  try {
-    const doctors = await doctorService.getDoctors();
-    return res.status(200).json({doctors });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
-};
+const getDoctors = catchAsync(async (req, res) => {
+  const doctors = await doctorService.getDoctors();
+  res.status(200).json({ doctors });
+});
 
-const createDoctor = async (req, res) => {
-    try {
-      let newDoctor = await doctorService.createDoctor(req.body);
-      let resObj = {
-        doctor: newDoctor,
-        message: "Created doctor suceesfully",
-      };
-      res.status(201).json(resObj);
-    } catch (error) {
-      console.error("Error during creating doctor:", error);
-      res.status(500).json({ error: error.message });
-    }
+const createDoctor = catchAsync(async (req, res) => {
+  let newDoctor = await doctorService.createDoctor(req.body);
+  let resObj = {
+    doctor: newDoctor,
+    message: "Created doctor successfully",
   };
+  res.status(201).json(resObj);
+});
 
 module.exports = {
   getDoctors,
-  createDoctor
+  createDoctor,
 };
