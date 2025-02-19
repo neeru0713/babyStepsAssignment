@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const doctorRoutes = require("./routes/doctorRoutes")
 const path = require("path");
+const { errorHandler } = require("./middlewares/error");
+const ApiError = require("./utils/ApiError");
+
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
 
 app.use(cors());
@@ -25,6 +28,12 @@ mongoose
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
+
+  app.use((req, res, next) => {
+    next(new ApiError(404, "Not found"));
+  });
+  
+  app.use(errorHandler);
 
   const port = process.env.PORT || 8080; 
   app.listen(port, () => {
