@@ -16,8 +16,9 @@ const createDoctor = catchAsync(async (req, res) => {
 });
 
 const getAvailableSlots = catchAsync(async (req, res) => {
+
     const availableSlots = await doctorService.computeAvailableSlots(req.params.id, req.query.date);
-    res.status(200).json({ availableSlots: availableSlots });
+    res.status(200).json({ slots: availableSlots });
 });
   
 

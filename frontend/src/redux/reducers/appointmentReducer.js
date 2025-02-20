@@ -2,9 +2,12 @@ import {
   UPDATE_SELECTED_DATE,
   FETCH_SLOTS_SUCCESS,
   FETCH_SLOTS_ERROR,
+  SELECT_SLOT_TIME
 } from "../types";
 const initialState = {
   selectedDate: null,
+  slots: [],
+  selectedSlot: null,
 };
 
 const doctorReducer = (state = initialState, action) => {
@@ -15,9 +18,11 @@ const doctorReducer = (state = initialState, action) => {
         selectedDate: action.payload,
       };
     case FETCH_SLOTS_SUCCESS:
-      return { ...state, slots: action.payload, error: null };
+      return { ...state, slots: action.payload };
     case FETCH_SLOTS_ERROR:
-      return { ...state, slots: [], error: action.payload };
+      return { ...state, slots: [] };
+    case SELECT_SLOT_TIME:
+      return { ...state, selectedSlot: action.payload };
     default:
       return state;
   }

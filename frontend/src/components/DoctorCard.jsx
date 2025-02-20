@@ -27,7 +27,7 @@ const DoctorCard = ({doctorOptions, doctors}) => {
 
   return (
     <div className="doctor-card bg-white p-6 rounded-xl border border-gray-200 w-[20%] h-full flex flex-col">
-      <h2 className="text-xl font-semibold text-center mb-4">Select Doctor</h2>
+      <h2 className="text-lg font-semibold text-center mb-2">Select Doctor</h2>
       <div className="flex-grow">
         <Selector
           options={doctorOptions}

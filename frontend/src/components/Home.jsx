@@ -13,7 +13,7 @@ import {
 import Slots from "./Slots.jsx";
 import DoctorCard from "./DoctorCard.jsx";
 
-const DoctorSlots = () => {
+const Home = () => {
   const dispatch = useDispatch();
   const doctors = useSelector((state) => state.doctor.doctors);
   const [doctorOptions, setDoctorOptions] = useState([]);
@@ -23,7 +23,7 @@ const DoctorSlots = () => {
   }, []);
 
   useEffect(() => {
-    let labelValOptions = [{}];
+    let labelValOptions = [{label: "Select Doctor", value: ""}];
     labelValOptions = [
       ...labelValOptions,
       ...doctors.map((item, index) => {
@@ -63,7 +63,7 @@ const DoctorSlots = () => {
     <>
       <h1 className="flex text-2xl items-center gap-3 font-semibold">
         <span>{getGreeting().text} </span>
-        <span className="text-3xl">{getGreeting().icon} </span>
+        <span className="text-2xl">{getGreeting().icon} </span>
       </h1>
 
       <div className="flex mt-10 gap-5 items-stretch min-h-screen">
@@ -74,4 +74,4 @@ const DoctorSlots = () => {
   );
 };
 
-export default DoctorSlots;
+export default Home;
