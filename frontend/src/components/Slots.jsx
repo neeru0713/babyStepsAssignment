@@ -79,7 +79,7 @@ const Slots = () => {
 
       {selectedDoctor && selectedDate && selectedSlot && (
         <Link to="/appointment">
-        <button className="absolute bottom-[26%] right-[15%] bg-orange-600 text-white p-2 rounded-lg hover:bg-orange-700 cursor-pointer">
+        <button className="absolute bottom-[18%] right-[14%] bg-orange-600 text-white p-2 rounded-lg hover:bg-orange-700 cursor-pointer transition">
           Next : Book Appointment
         </button>
         </Link>

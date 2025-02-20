@@ -7,14 +7,15 @@ const Selector = ({
   updateValue,
   label,
   type,
-  style
+  style,
+  className
 }) => {
   const inputChangeHandler = (event) => {
     updateValue(event.target.name, event.target.value, event.target.type);
   };
 
   return (
-    <div className="flex flex-col m-1 ">
+    <div className={`flex flex-col m-1 ${className}`}>
       <label className="text-left text-[#4b5563]" htmlFor={`${name}-select`}>
         {label}
       </label>
@@ -25,7 +26,7 @@ const Selector = ({
         value={value}
         style={style}
         onChange={inputChangeHandler}
-        className="w-full py-[8px] px-2 border border-1 rounded-lg text-[#4b5563]"
+        className="w-full py-[8px] px-2 border border-1 rounded-lg "
       >
         {options &&
           options.map((item, index) => (

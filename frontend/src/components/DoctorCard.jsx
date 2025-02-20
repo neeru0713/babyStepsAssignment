@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Selector from "./form/Selector.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,20 +9,18 @@ import {
   FaGraduationCap,
 } from "react-icons/fa";
 import DoctorInfoRow from "./DoctorInfoRow.jsx";
-
 import { updateSelectedDoctor } from "../redux/actions/doctorAction.js";
 
-const DoctorCard = ({doctorOptions, doctors}) => {
-  const selectedDoctor = useSelector((state) => state.doctor.selectedDoctor);
+const DoctorCard = ({ doctorOptions, doctors }) => {
   const dispatch = useDispatch();
-
-  const [selectedDoctorDetails, setSelectedDoctorDetails] = useState({});
+  const selectedDoctor = useSelector((state) => state.doctor.selectedDoctor);
+  const selectedDoctorDetails = useSelector(
+    (state) => state.doctor.selectedDoctorDetails
+  );
 
   const onDoctorChange = (name, value, type) => {
     const doctor = doctors.find((doc) => doc._id === value);
-    setSelectedDoctorDetails(doctor);
-
-    dispatch(updateSelectedDoctor(value));
+    dispatch(updateSelectedDoctor(value, doctor));
   };
 
   return (
@@ -36,10 +34,11 @@ const DoctorCard = ({doctorOptions, doctors}) => {
           updateValue={onDoctorChange}
         />
       </div>
-      {selectedDoctorDetails._id && (
+      {selectedDoctorDetails?._id && (
         <div className=" border-gray-300 pt-4 mt-4 bg-gray-50 p-4 rounded-lg flex flex-col gap-6">
           <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-            <FaUserMd className="text-blue-500" /> {selectedDoctorDetails.name}
+            <FaUserMd className="text-blue-500" /> 
+            <p className="truncate overflow-hidden text-ellipsis">  {selectedDoctorDetails.name}</p>
           </h3>
 
           <DoctorInfoRow

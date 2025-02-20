@@ -74,7 +74,7 @@ const SlotsGrid = ({ slots }) => {
   return (
     <div className="p-4 bg-gray-50 rounded-xl w-full">
       <div className="flex flex-col gap-10">
-        {morningSlots && morningSlots.length && (
+        {morningSlots && morningSlots.length > 0 && (
           <div>
             <h3 className="text-md font-semibold text-gray-600 mb-2 pb-1 flex gap-2 items-center justify-center">
               <WiSunrise className="text-yellow-500 text-3xl" />
@@ -85,7 +85,7 @@ const SlotsGrid = ({ slots }) => {
           </div>
         )}
 
-        {afternoonSlots && afternoonSlots.length && (
+        {afternoonSlots && afternoonSlots.length > 0 && (
           <div>
             <h3 className="text-md font-semibold text-gray-600 mb-2 pb-1 flex gap-2 items-center justify-center">
               <WiDaySunny className="text-orange-500 text-3xl" />
@@ -96,7 +96,7 @@ const SlotsGrid = ({ slots }) => {
           </div>
         )}
 
-        {eveningSlots && eveningSlots.length && (
+        {eveningSlots && eveningSlots.length > 0 && (
           <div>
             <h3 className="text-md font-semibold text-gray-600 mb-2 pb-1 flex gap-2 items-center justify-center">
               <WiNightClear className="text-blue-500 text-3xl" />

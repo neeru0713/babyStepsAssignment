@@ -12,10 +12,11 @@ export const getDoctors = () => async (dispatch) => {
   }
 };
 
-export const updateSelectedDoctor = (id) => async (dispatch) => {
+export const updateSelectedDoctor = (doctorId, doctorDetails) => async (dispatch) => {
     try {
-      dispatch({ type: UPDATE_SELECTED_DOCTOR, payload: id });
+      dispatch({ type: UPDATE_SELECTED_DOCTOR, payload: { doctorId, doctorDetails } });
     } catch (error) {
       console.log(error);
     }
   };
+

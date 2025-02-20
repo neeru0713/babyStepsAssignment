@@ -37,7 +37,6 @@ const Home = () => {
   }, [doctors]);
 
 
-
   const getGreeting = () => {
     const hours = new Date().getHours();
 
