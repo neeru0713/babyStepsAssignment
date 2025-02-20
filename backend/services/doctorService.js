@@ -1,12 +1,13 @@
+const Appointment = require("../models/Appointment");
 const Doctor = require("../models/Doctor");
 const ApiError = require("../utils/ApiError");
-
+const moment = require("moment-timezone");
 async function getDoctors() {
   try {
     const doctors = await Doctor.find({});
     return doctors;
   } catch (error) {
-    throw new ApiError(404, "error.message");
+    throw new ApiError(404, error.message);
   }
 }
 
@@ -16,11 +17,144 @@ async function createDoctor(doctorBody) {
     await newDoctor.save();
     return newDoctor;
   } catch (error) {
-    throw new ApiError(404, "error.message");
+    throw new ApiError(404, error.message);
   }
 }
 
-const computeAvailableSlots = async (doctorId, date) => {};
+const getDoctorsWorkingTime = async (doctorId) => {
+  try {
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) {
+      throw new ApiError(404, "Doctor not found");
+    }
+    return doctor.workingHours;
+  } catch (error) {
+    throw new ApiError(404, error.message);
+  }
+};
+
+const createAllSlots = (date, workingHoursStartTime, workingHoursEndTime) => {
+  try {
+    let allSlots = [];
+    let slotTime = moment.tz(
+      `${date} ${workingHoursStartTime}`,
+      "YYYY-MM-DD HH:mm",
+      "Asia/Kolkata"
+    );
+
+    const endTime = moment.tz(
+      `${date} ${workingHoursEndTime}`,
+      "YYYY-MM-DD HH:mm",
+      "Asia/Kolkata"
+    );
+
+    while (slotTime.isBefore(endTime)) {
+      allSlots.push(slotTime.format("HH:mm"));
+      slotTime.add(30, "minutes");
+    }
+    return allSlots;
+  } catch (error) {
+    throw new ApiError(404, error.message);
+  }
+};
+
+const fetchBookedAppointmentsForDoctorForGivenDate = async (doctorId, date) => {
+  try {
+    const startTimeOfDayForGivenDate = moment
+      .tz(`${date} 00:00`, "YYYY-MM-DD HH:mm", "Asia/Kolkata")
+      .toDate();
+    const endTimeOfDayForGivenDate = moment
+      .tz(`${date} 23:59`, "YYYY-MM-DD HH:mm", "Asia/Kolkata")
+      .toDate();
+
+    const bookedAppointmentsForDoctor = await Appointment.find({
+      doctorId: doctorId,
+      date: {
+        $gte: startTimeOfDayForGivenDate,
+        $lte: endTimeOfDayForGivenDate,
+      },
+    });
+
+    return bookedAppointmentsForDoctor;
+  } catch (error) {
+    throw new ApiError(404, error.message);
+  }
+};
+
+const removeOverlappingSlots = (date, bookedAppointments, allSlots) => {
+  try {
+    // sort for better time complexity
+    bookedAppointments.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    let i = 0;
+    return allSlots.map((slot) => {
+      const slotStartTime = moment.tz(
+        `${date} ${slot}`,
+        "YYYY-MM-DD HH:mm",
+        "Asia/Kolkata"
+      );
+      const slotEndTime = slotStartTime.clone().add(30, "minutes");
+
+      while (
+        i < bookedAppointments.length &&
+        moment(bookedAppointments[i].date)
+          .add(bookedAppointments[i].duration, "minutes")
+          .isBefore(slotStartTime)
+      ) {
+        i++;
+      }
+
+      if (i < bookedAppointments.length) {
+        const appointmentStart = moment(bookedAppointments[i].date);
+        const appointmentEnd = appointmentStart
+          .clone()
+          .add(bookedAppointments[i].duration, "minutes");
+
+        if (
+          slotStartTime.isBefore(appointmentEnd) &&
+          slotEndTime.isAfter(appointmentStart)
+        ) {
+          return { slotTime: slot, status: "navl" };
+        }
+      }
+      return { slotTime: slot, status: "avl" };
+    });
+  } catch (error) {
+    throw new ApiError(500, error.message);
+  }
+};
+
+const computeAvailableSlots = async (doctorId, date) => {
+  try {
+    // 1: Get Doctor's Working Hours
+    const wH = await getDoctorsWorkingTime(doctorId);
+    console.log("WH : ", wH);
+    const workingHoursStartTime = wH.start;
+    const workingHoursEndTime = wH.end;
+
+    // 2: Generate All 30 minute Slots
+    const allSlots = createAllSlots(
+      date,
+      workingHoursStartTime,
+      workingHoursEndTime
+    );
+
+    // 3. fetch all existing appointments of this doctor
+    const bookedAppointments =
+      await fetchBookedAppointmentsForDoctorForGivenDate(doctorId, date);
+
+    // 4. Remove Overlapping Slots
+    const newSlotsAfterRemovingOverlappingSlots = removeOverlappingSlots(
+      date,
+      bookedAppointments,
+      allSlots
+    );
+
+    return newSlotsAfterRemovingOverlappingSlots;
+  } catch (error) {
+    throw new ApiError(500, error.message);
+  }
+};
 
 module.exports = {
   getDoctors,
