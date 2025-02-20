@@ -20,7 +20,10 @@ async function createDoctor(doctorBody) {
   }
 }
 
+const computeAvailableSlots = async (doctorId, date) => {};
+
 module.exports = {
   getDoctors,
   createDoctor,
+  computeAvailableSlots,
 };

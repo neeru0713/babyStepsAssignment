@@ -15,7 +15,13 @@ const createDoctor = catchAsync(async (req, res) => {
   res.status(201).json(resObj);
 });
 
+const getAvailableSlots = catchAsync(async (req, res) => {
+    
+  });
+  
+
 module.exports = {
   getDoctors,
   createDoctor,
+  getAvailableSlots
 };

@@ -15,8 +15,8 @@ dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
-app.use("/api/doctor", doctorRoutes);
-app.use("/api/appointment", appointmentRoutes);
+app.use("/api/doctors", doctorRoutes);
+app.use("/api/appointments", appointmentRoutes);
 
 const mongoUrl = process.env.MONGODB_URL;
 mongoose
