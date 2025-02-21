@@ -33,11 +33,10 @@ const SlotsGrid = ({ slots }) => {
     return (
       <div className="grid grid-cols-4 gap-2">
         {slotList.map((slot, index) => (
-          <>
+          <div key={index}>
             {slot.status === "avl" && (
               <div
                 onClick={() => handleSlotClick(slot.slotTime)}
-                key={index}
                 className={`
                     p-2 rounded-lg text-sm font-semibold text-center 
                     ${
@@ -55,7 +54,6 @@ const SlotsGrid = ({ slots }) => {
             {slot.status === "navl" && (
               <div
                 onClick={() => handleSlotClick(slot.slotTime)}
-                key={index}
                 className={`
                     p-2 rounded-lg text-sm font-semibold text-center 
                     border border-gray-200
@@ -65,7 +63,7 @@ const SlotsGrid = ({ slots }) => {
                 {slot.slotTime}
               </div>
             )}
-          </>
+          </div>
         ))}
       </div>
     );

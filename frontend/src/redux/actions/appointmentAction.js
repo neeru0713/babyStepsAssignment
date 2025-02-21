@@ -13,13 +13,17 @@ import {
 } from "../types";
 import { API_URL } from "../../config/config";
 import moment from "moment";
+import { hideSpinner, showSpinner } from "./spinnerAction";
+
 export const updateSelectedDate = (date) => async (dispatch, getState) => {
   try {
     const doctorId = getState().doctor.selectedDoctor;
     const formattedDate = moment(date).format("YYYY-MM-DD");
+    dispatch(showSpinner(`Fetching slots for ${formattedDate}`));
     const response = await axios.get(
       `${API_URL}/api/doctors/${doctorId}/slots?date=${formattedDate}`
     );
+    dispatch(hideSpinner());
     dispatch({ type: UPDATE_SELECTED_DATE, payload: date });
     dispatch({ type: FETCH_SLOTS_SUCCESS, payload: response.data.slots });
   } catch (error) {
@@ -64,14 +68,18 @@ export const bookAppointment = (mode) => async (dispatch, getState) => {
       notes,
     };
     let response;
+    
     if (mode === "create") {
+      dispatch(showSpinner(`Creating new appointment for you`))
       response = await axios.post(`${API_URL}/api/appointments`, payload);
     } else if (mode === "edit") {
+      dispatch(showSpinner('Saving your updated appointment'))
       response = await axios.put(
         `${API_URL}/api/appointments/${appointmentIdToEdit}`,
         payload
       );
     }
+    dispatch(hideSpinner())
 
     console.log("Appointment booked successfully:", response.data);
   } catch (error) {
@@ -81,7 +89,9 @@ export const bookAppointment = (mode) => async (dispatch, getState) => {
 
 export const fetchAppointments = () => async (dispatch) => {
   try {
+    dispatch(showSpinner('Fetching your appointments'))
     const res = await axios.get(`${API_URL}/api/appointments`);
+    dispatch(hideSpinner())
     dispatch({ type: APPOINTMENTS_SUCCESS, payload: res.data.appointments });
   } catch (error) {
     dispatch({
@@ -93,7 +103,9 @@ export const fetchAppointments = () => async (dispatch) => {
 
 export const cancelAppointment = (id) => async (dispatch) => {
   try {
+    dispatch(showSpinner('Cancelling your appointment ...'))
     const res = await axios.delete(`${API_URL}/api/appointments/${id}`);
+    dispatch(hideSpinner())
     dispatch({ type: CANCEL_APPOINTMENT, payload: res.data.appointments });
   } catch (error) {
     console.error("Error deleting appointment:", error);
