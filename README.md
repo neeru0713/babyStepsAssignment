@@ -103,3 +103,9 @@ The **Doctor Appointment System** allows users to book, view, edit, and cancel d
 - **Frontend:** [Live Application](https://baby-steps-assignment-lime.vercel.app/)  
 - **Backend:** [API Server](https://babystepsassignment.onrender.com)
 
+<img width="1548" alt="Screenshot 2025-02-21 at 2 50 04 PM" src="https://github.com/user-attachments/assets/ee44fae3-049b-423c-a31c-0287054c32b2" />
+
+<img width="1474" alt="Screenshot 2025-02-21 at 2 50 24 PM" src="https://github.com/user-attachments/assets/c6d32a12-53e2-44ae-a718-ae4b93e2f916" />
+
+<img width="1505" alt="Screenshot 2025-02-21 at 2 49 44 PM" src="https://github.com/user-attachments/assets/8a3862aa-5e66-4e0f-900c-2331e411ef04" />
+
