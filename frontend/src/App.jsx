@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/appointment" element={<Appointment />}></Route>
-          <Route path="/my-appointments" element={<MyAppointments />}></Route>
+          <Route path="#/my-appointments" element={<MyAppointments />}></Route>
         </Routes>
       </Provider>
     </BrowserRouter>
