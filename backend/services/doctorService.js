@@ -83,10 +83,8 @@ const fetchBookedAppointmentsForDoctorForGivenDate = async (doctorId, date) => {
 
 const removeOverlappingSlots = (date, bookedAppointments, allSlots) => {
   try {
-    // sort for better time complexity
     bookedAppointments.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-    let i = 0;
     return allSlots.map((slot) => {
       const slotStartTime = moment.tz(
         `${date} ${slot}`,
@@ -95,40 +93,30 @@ const removeOverlappingSlots = (date, bookedAppointments, allSlots) => {
       );
       const slotEndTime = slotStartTime.clone().add(30, "minutes");
 
-      while (
-        i < bookedAppointments.length &&
-        moment(bookedAppointments[i].date)
-          .add(bookedAppointments[i].duration, "minutes")
-          .isBefore(slotStartTime)
-      ) {
-        i++;
-      }
-
-      if (i < bookedAppointments.length) {
-        const appointmentStart = moment(bookedAppointments[i].date);
+      let isOverlapping = bookedAppointments.some((appointment) => {
+        const appointmentStart = moment(appointment.date);
         const appointmentEnd = appointmentStart
           .clone()
-          .add(bookedAppointments[i].duration, "minutes");
+          .add(appointment.duration, "minutes");
 
-        if (
+        return (
           slotStartTime.isBefore(appointmentEnd) &&
           slotEndTime.isAfter(appointmentStart)
-        ) {
-          return { slotTime: slot, status: "navl" };
-        }
-      }
-      return { slotTime: slot, status: "avl" };
+        );
+      });
+
+      return { slotTime: slot, status: isOverlapping ? "navl" : "avl" };
     });
   } catch (error) {
     throw new ApiError(500, error.message);
   }
 };
 
+
 const computeAvailableSlots = async (doctorId, date) => {
   try {
     // 1: Get Doctor's Working Hours
     const wH = await getDoctorsWorkingTime(doctorId);
-    console.log("WH : ", wH);
     const workingHoursStartTime = wH.start;
     const workingHoursEndTime = wH.end;
 
@@ -142,14 +130,14 @@ const computeAvailableSlots = async (doctorId, date) => {
     // 3. fetch all existing appointments of this doctor
     const bookedAppointments =
       await fetchBookedAppointmentsForDoctorForGivenDate(doctorId, date);
-
-    // 4. Remove Overlapping Slots
+   
+      // 4. Remove Overlapping Slots
     const newSlotsAfterRemovingOverlappingSlots = removeOverlappingSlots(
       date,
       bookedAppointments,
       allSlots
     );
-
+    
     return newSlotsAfterRemovingOverlappingSlots;
   } catch (error) {
     throw new ApiError(500, error.message);
