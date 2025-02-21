@@ -14,6 +14,8 @@ export const UPDATE_MODE = "UPDATE_MODE";
 export const SHOW_SPINNER = 'SHOW_SPINNER';
 export const HIDE_SPINNER = 'HIDE_SPINNER';
 
+export const SHOW_NOTIFICATION = 'SHOW_NOTIFICATION';
+export const CLOSE_NOTIFICATION = 'CLOSE_NOTIFICATION';
 
 
   

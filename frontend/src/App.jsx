@@ -7,11 +7,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/nav/Navbar";
 import MyAppointments from "./components/appointment/MyAppointments";
 import Spinner from "./components/spinner/Spinner";
+import Notification from "./components/notification/Notification";
 
 function App() {
   return (
     <BrowserRouter>
       <Provider store={store}>
+        <Notification/>
         <Spinner/>
         <Navbar/>
         <Routes>

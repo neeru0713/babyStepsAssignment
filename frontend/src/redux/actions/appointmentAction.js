@@ -14,7 +14,7 @@ import {
 import { API_URL } from "../../config/config";
 import moment from "moment";
 import { hideSpinner, showSpinner } from "./spinnerAction";
-
+import { showNotification } from "./notificationAction";
 export const updateSelectedDate = (date) => async (dispatch, getState) => {
   try {
     const doctorId = getState().doctor.selectedDoctor;
@@ -26,9 +26,25 @@ export const updateSelectedDate = (date) => async (dispatch, getState) => {
     dispatch(hideSpinner());
     dispatch({ type: UPDATE_SELECTED_DATE, payload: date });
     dispatch({ type: FETCH_SLOTS_SUCCESS, payload: response.data.slots });
+    dispatch(
+      showNotification({
+        type: "success",
+        message: "Please select a slot for your appointment",
+        sticky: false,
+      })
+    );
   } catch (error) {
+    dispatch(hideSpinner())
     console.error("Error fetching slots:", error);
     dispatch({ type: FETCH_SLOTS_ERROR, payload: error.message });
+
+    dispatch(
+      showNotification({
+        type: "error",
+        message: 'Error fetching slots',
+        sticky: true,
+      })
+    );
   }
 };
 
@@ -80,9 +96,29 @@ export const bookAppointment = (mode) => async (dispatch, getState) => {
       );
     }
     dispatch(hideSpinner())
+    let msg = "your appointment is booked successfully";
+    if(mode === 'edit') {
+      msg = "your appointment is modified successfully";
+    }
+
+    dispatch(
+      showNotification({
+        type: "success",
+        message: msg,
+        sticky: false,
+      })
+    );
 
     console.log("Appointment booked successfully:", response.data);
   } catch (error) {
+    dispatch(hideSpinner())
+    dispatch(
+      showNotification({
+        type: "error",
+        message: `Error ${mode === 'edit' ? 'editing' : 'booking'} appointment`,
+        sticky: true,
+      })
+    );
     console.error("Error booking appointment:", error);
   }
 };
@@ -94,6 +130,7 @@ export const fetchAppointments = () => async (dispatch) => {
     dispatch(hideSpinner())
     dispatch({ type: APPOINTMENTS_SUCCESS, payload: res.data.appointments });
   } catch (error) {
+    dispatch(hideSpinner())
     dispatch({
       type: APPOINTMENTS_FAIL,
       payload: error.response?.data?.message || error.message,
@@ -107,8 +144,23 @@ export const cancelAppointment = (id) => async (dispatch) => {
     const res = await axios.delete(`${API_URL}/api/appointments/${id}`);
     dispatch(hideSpinner())
     dispatch({ type: CANCEL_APPOINTMENT, payload: res.data.appointments });
+    dispatch(
+      showNotification({
+        type: "success",
+        message: 'Your appointment is cancelled',
+        sticky: false,
+      })
+    );
   } catch (error) {
     console.error("Error deleting appointment:", error);
+    dispatch(hideSpinner())
+    dispatch(
+      showNotification({
+        type: "error",
+        message: 'Error deleting appointment',
+        sticky: true,
+      })
+    );
   }
 };
 

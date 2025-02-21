@@ -11,6 +11,7 @@ export const getDoctors = () => async (dispatch) => {
     dispatch(hideSpinner());
     dispatch({ type: GET_DOCTORS, payload: res.data.doctors });
   } catch (error) {
+    dispatch(hideSpinner())
     console.log(error);
   }
 };

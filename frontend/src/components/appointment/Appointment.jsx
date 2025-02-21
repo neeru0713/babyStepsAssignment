@@ -2,12 +2,12 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setAppointmentDetails, bookAppointment } from "../../redux/actions/appointmentAction";
 import Selector from "../form/Selector";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const Appointment = () => {
   const dispatch = useDispatch();
   const appointment = useSelector((state) => state.appointment.appointment);
   const mode = useSelector((state) => state.appointment.mode);
-
+  const navigate = useNavigate()
   const appointmentTypes = [
     { label: "Routine Check-Up", value: "Routine Check-Up" },
     { label: "Dental Consultation", value: "Dental Consultation" },
@@ -26,6 +26,7 @@ const Appointment = () => {
 
   const bookAppointmentHandler = () => {
    dispatch(bookAppointment(mode))
+   navigate('/my-appointments')
   };
 
   return (
