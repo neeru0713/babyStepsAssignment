@@ -4,6 +4,9 @@ import {
   FETCH_SLOTS_ERROR,
   SELECT_SLOT_TIME,
   SET_APPOINTMENT_DETAILS,
+  APPOINTMENTS_SUCCESS,
+  APPOINTMENTS_FAIL,
+  CANCEL_APPOINTMENT,
 } from "../types";
 const initialState = {
   selectedDate: null,
@@ -34,6 +37,19 @@ const doctorReducer = (state = initialState, action) => {
       return {
         ...state,
         appointment: action.payload,
+      };
+    case APPOINTMENTS_SUCCESS:
+      return { ...state, appointments: action.payload };
+
+    case APPOINTMENTS_FAIL:
+      return { ...state, error: action.payload };
+
+    case CANCEL_APPOINTMENT:
+      return {
+        ...state,
+        appointments: state.appointments.filter(
+          (appointment) => appointment._id !== action.payload
+        ),
       };
     default:
       return state;

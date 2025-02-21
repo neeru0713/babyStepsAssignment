@@ -36,7 +36,9 @@ const Slots = () => {
 
   return (
     <div className="slots-card bg-white p-3 rounded-xl border border-gray-200 w-[80%] h-full flex flex-col">
+        <h1 className="text-lg font-semibold  text-gray-700">Select Slot</h1>
       {selectedDoctor ? (
+        
         <div className="flex items-center gap-4">
           <div className="mt-4 flex flex-col items-start gap-1 px-4">
             <label className="block text-gray-700 font-medium text-center">
@@ -63,10 +65,6 @@ const Slots = () => {
         </div>
       ) : (
         <div className="p-3">
-          <h2 className="text-lg font-bold text-gray-700 mb-4 text-center">
-            Appointment Slot
-          </h2>
-
           <p className="text-center text-gray-500">
             Please select a doctor first.
           </p>

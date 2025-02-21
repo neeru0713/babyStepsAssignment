@@ -4,7 +4,11 @@ import {
   FETCH_SLOTS_SUCCESS,
   FETCH_SLOTS_ERROR,
   SELECT_SLOT_TIME,
-  SET_APPOINTMENT_DETAILS
+  SET_APPOINTMENT_DETAILS,
+  APPOINTMENTS_SUCCESS,
+  APPOINTMENTS_FAIL,
+  CANCEL_APPOINTMENT
+
 } from "../types";
 import { API_URL } from "../../config/config";
 import moment from "moment";
@@ -61,3 +65,26 @@ export const bookAppointment = () => async (dispatch, getState) => {
     console.error("Error booking appointment:", error);
   }
 };
+
+
+export const fetchAppointments = () => async (dispatch) => {
+    try {  
+      const res = await axios.get(`${API_URL}/api/appointments`);
+      dispatch({ type: APPOINTMENTS_SUCCESS, payload: res.data.appointments });
+    } catch (error) {
+      dispatch({
+        type: APPOINTMENTS_FAIL,
+        payload: error.response?.data?.message || error.message,
+      });
+    }
+  };
+  
+
+  export const cancelAppointment = (id) => async (dispatch) => {
+    try {
+      await axios.delete(`${API_URL}/api/appointments/${id}`);
+      dispatch({ type: CANCEL_APPOINTMENT, payload: id });
+    } catch (error) {
+      console.error("Error deleting appointment:", error);
+    }
+  };

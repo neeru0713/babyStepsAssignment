@@ -3,7 +3,7 @@ const ApiError = require("../utils/ApiError");
 
 async function getAppointments() {
   try {
-    const Appointments = await Appointment.find({});
+    const Appointments = await Appointment.find({}).populate("doctorId");
     return Appointments;
   } catch (error) {
     throw new ApiError(404, "error.message");
