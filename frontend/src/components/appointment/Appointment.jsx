@@ -10,8 +10,6 @@ const Appointment = () => {
   const navigate = useNavigate()
   const appointmentTypes = [
     { label: "Routine Check-Up", value: "Routine Check-Up" },
-    { label: "Dental Consultation", value: "Dental Consultation" },
-    { label: "Eye Check-Up", value: "Eye Check-Up" },
     { label: "General Consultation", value: "General Consultation" },
   ];
 

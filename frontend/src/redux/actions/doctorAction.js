@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_DOCTORS, UPDATE_SELECTED_DOCTOR } from "../types";
+import { GET_DOCTORS, UPDATE_SELECTED_DOCTOR, CLEAR_DOCTOR_STATE } from "../types";
 
 import { API_URL } from "../../config/config";
 import { showSpinner, hideSpinner } from "./spinnerAction";
@@ -11,7 +11,7 @@ export const getDoctors = () => async (dispatch) => {
     dispatch(hideSpinner());
     dispatch({ type: GET_DOCTORS, payload: res.data.doctors });
   } catch (error) {
-    dispatch(hideSpinner())
+    dispatch(hideSpinner());
     console.log(error);
   }
 };
@@ -27,3 +27,7 @@ export const updateSelectedDoctor =
       console.log(error);
     }
   };
+
+export const clearDoctorState = () => ({
+  type: CLEAR_DOCTOR_STATE,
+});

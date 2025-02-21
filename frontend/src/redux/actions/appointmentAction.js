@@ -10,6 +10,7 @@ import {
   CANCEL_APPOINTMENT,
   UPDATE_EDITING_APPOINTMENT,
   UPDATE_MODE,
+  CLEAR_APPOINTMENT_STATE
 } from "../types";
 import { API_URL } from "../../config/config";
 import moment from "moment";
@@ -171,3 +172,7 @@ export const updateEditingAppointmentId = (id) => (dispatch) => {
 export const updateMode = (mode) => (dispatch) => {
   dispatch({ type: UPDATE_MODE, payload: mode });
 };
+
+export const clearAppointmentState = () => ({
+  type: CLEAR_APPOINTMENT_STATE,
+});

@@ -1,4 +1,4 @@
-import { GET_DOCTORS, UPDATE_SELECTED_DOCTOR } from "../types";
+import { GET_DOCTORS, UPDATE_SELECTED_DOCTOR, CLEAR_DOCTOR_STATE } from "../types";
 const initialState = {
   doctors: [],
   selectedDoctor: "",
@@ -18,7 +18,8 @@ const doctorReducer = (state = initialState, action) => {
         selectedDoctor: action.payload.doctorId,
         selectedDoctorDetails: action.payload.doctorDetails,
       };
-
+      case CLEAR_DOCTOR_STATE:
+        return { doctors: state.doctors,  selectedDoctor: "", selectedDoctorDetails: {}}; 
     default:
       return state;
   }
