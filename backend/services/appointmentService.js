@@ -26,6 +26,7 @@ const getAppointmentById = async (id) => {
 
 async function createAppointment(appointmentBody) {
   try {
+    console.log("before : ", appointmentBody.date)
     appointmentBody.date = moment(appointmentBody.date).utc().toISOString();
     console.log("Final UTC Date Before Save:", appointmentBody.date); 
     console.log("Server Timezone:", Intl.DateTimeFormat().resolvedOptions().timeZone);
