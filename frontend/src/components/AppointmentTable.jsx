@@ -2,7 +2,7 @@ import React from "react";
 import { FaUserMd, FaUser, FaCalendarAlt, FaClock, FaTools } from "react-icons/fa";
 import AppointmentRow from "./AppointmentRow";
 
-const AppointmentTable = ({ appointments, handleDelete }) => {
+const AppointmentTable = ({ appointments, handleCancelAppointment }) => {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white border border-gray-300">
@@ -40,7 +40,7 @@ const AppointmentTable = ({ appointments, handleDelete }) => {
             <AppointmentRow
               key={appointment._id}
               appointment={appointment}
-              handleDelete={handleDelete}
+              handleCancelAppointment={handleCancelAppointment}
             />
           ))}
         </tbody>

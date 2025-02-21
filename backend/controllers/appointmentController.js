@@ -34,7 +34,7 @@ const deleteAppointment = catchAsync(async (req, res) => {
   if (!appointmentAfterDeleting) {
     throw new ApiError(404, "Appointment not found");
   }
-  res.status(200).json({ appointment: appointmentAfterDeleting });
+  res.status(200).json({ appointments: appointmentAfterDeleting });
 });
 
 const editAppointment = catchAsync(async (req, res) => {

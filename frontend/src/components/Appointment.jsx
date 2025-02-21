@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 const Appointment = () => {
   const dispatch = useDispatch();
   const appointment = useSelector((state) => state.appointment.appointment);
+  const mode = useSelector((state) => state.appointment.mode);
 
   const appointmentTypes = [
     { label: "Routine Check-Up", value: "Routine Check-Up" },
@@ -24,7 +25,7 @@ const Appointment = () => {
   };
 
   const bookAppointmentHandler = () => {
-   dispatch(bookAppointment())
+   dispatch(bookAppointment(mode))
   };
 
   return (
@@ -82,7 +83,7 @@ const Appointment = () => {
           className="w-full bg-orange-600 text-white p-2 rounded-md hover:bg-orange-700 transition"
           onClick={bookAppointmentHandler}
         >
-          Book Appointment
+          {mode === 'create' ? 'Create' : 'Edit'} Appointment
         </button>
       </div>
 

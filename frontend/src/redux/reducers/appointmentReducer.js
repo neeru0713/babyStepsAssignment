@@ -7,6 +7,8 @@ import {
   APPOINTMENTS_SUCCESS,
   APPOINTMENTS_FAIL,
   CANCEL_APPOINTMENT,
+  UPDATE_EDITING_APPOINTMENT,
+  UPDATE_MODE,
 } from "../types";
 const initialState = {
   selectedDate: null,
@@ -18,6 +20,8 @@ const initialState = {
     notes: "",
   },
   appointments: [],
+  mode: "create",
+  appointmentIdToEdit: "",
 };
 
 const doctorReducer = (state = initialState, action) => {
@@ -47,9 +51,18 @@ const doctorReducer = (state = initialState, action) => {
     case CANCEL_APPOINTMENT:
       return {
         ...state,
-        appointments: state.appointments.filter(
-          (appointment) => appointment._id !== action.payload
-        ),
+        appointments: action.payload,
+      };
+    case UPDATE_MODE:
+      return {
+        ...state,
+        mode: action.payload,
+      };
+
+    case UPDATE_EDITING_APPOINTMENT:
+      return {
+        ...state,
+        appointmentIdToEdit: action.payload,
       };
     default:
       return state;

@@ -41,7 +41,7 @@ const deleteAppointment = async (id) => {
       throw new ApiError(404, "Appointment not found");
     }
     await Appointment.deleteOne({ _id: id });
-    const appointmentsAfterDeleting = await Appointment.find({});
+    const appointmentsAfterDeleting = await Appointment.find({}).populate('doctorId');
     return appointmentsAfterDeleting;
   } catch (error) {
     throw new ApiError(500, error.message || "Failed to delete appointment");

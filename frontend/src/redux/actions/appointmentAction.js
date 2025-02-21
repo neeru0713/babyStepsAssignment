@@ -7,8 +7,9 @@ import {
   SET_APPOINTMENT_DETAILS,
   APPOINTMENTS_SUCCESS,
   APPOINTMENTS_FAIL,
-  CANCEL_APPOINTMENT
-
+  CANCEL_APPOINTMENT,
+  UPDATE_EDITING_APPOINTMENT,
+  UPDATE_MODE,
 } from "../types";
 import { API_URL } from "../../config/config";
 import moment from "moment";
@@ -35,17 +36,24 @@ export const setAppointmentDetails = (appointmentData) => (dispatch) => {
   dispatch({ type: SET_APPOINTMENT_DETAILS, payload: appointmentData });
 };
 
-export const bookAppointment = () => async (dispatch, getState) => {
+export const bookAppointment = (mode) => async (dispatch, getState) => {
   try {
-    debugger;
     const state = getState();
     const doctorId = state.doctor.selectedDoctor;
     const selectedDate = state.appointment.selectedDate;
     const selectedSlot = state.appointment.selectedSlot;
     const { appointmentType, patientName, notes } =
       state.appointment.appointment;
-    const formattedDate = selectedDate.toLocaleDateString("en-CA");
+      let formattedDate;
+      if(typeof selectedDate === 'object'){
+         formattedDate = selectedDate.toLocaleDateString("en-CA");
+      } else {
+        formattedDate = selectedDate
+      }
+  
     const appointmentDateTime = `${formattedDate}T${selectedSlot}:00`;
+
+    const appointmentIdToEdit = state.appointment.appointmentIdToEdit;
 
     const payload = {
       doctorId,
@@ -55,36 +63,47 @@ export const bookAppointment = () => async (dispatch, getState) => {
       patientName,
       notes,
     };
+    let response;
+    if (mode === "create") {
+      response = await axios.post(`${API_URL}/api/appointments`, payload);
+    } else if (mode === "edit") {
+      response = await axios.put(
+        `${API_URL}/api/appointments/${appointmentIdToEdit}`,
+        payload
+      );
+    }
 
-    const response = await axios.post(
-      `${API_URL}/api/appointments`,
-      payload
-    );
     console.log("Appointment booked successfully:", response.data);
   } catch (error) {
     console.error("Error booking appointment:", error);
   }
 };
 
-
 export const fetchAppointments = () => async (dispatch) => {
-    try {  
-      const res = await axios.get(`${API_URL}/api/appointments`);
-      dispatch({ type: APPOINTMENTS_SUCCESS, payload: res.data.appointments });
-    } catch (error) {
-      dispatch({
-        type: APPOINTMENTS_FAIL,
-        payload: error.response?.data?.message || error.message,
-      });
-    }
-  };
-  
+  try {
+    const res = await axios.get(`${API_URL}/api/appointments`);
+    dispatch({ type: APPOINTMENTS_SUCCESS, payload: res.data.appointments });
+  } catch (error) {
+    dispatch({
+      type: APPOINTMENTS_FAIL,
+      payload: error.response?.data?.message || error.message,
+    });
+  }
+};
 
-  export const cancelAppointment = (id) => async (dispatch) => {
-    try {
-      await axios.delete(`${API_URL}/api/appointments/${id}`);
-      dispatch({ type: CANCEL_APPOINTMENT, payload: id });
-    } catch (error) {
-      console.error("Error deleting appointment:", error);
-    }
-  };
+export const cancelAppointment = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`${API_URL}/api/appointments/${id}`);
+    dispatch({ type: CANCEL_APPOINTMENT, payload: res.data.appointments });
+  } catch (error) {
+    console.error("Error deleting appointment:", error);
+  }
+};
+
+export const updateEditingAppointmentId = (id) => (dispatch) => {
+  dispatch({ type: UPDATE_EDITING_APPOINTMENT, payload: id });
+};
+
+export const updateMode = (mode) => (dispatch) => {
+  dispatch({ type: UPDATE_MODE, payload: mode });
+};

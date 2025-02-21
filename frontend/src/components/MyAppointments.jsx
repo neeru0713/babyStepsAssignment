@@ -11,7 +11,7 @@ const MyAppointments = () => {
     dispatch(fetchAppointments());
   }, [dispatch]);
 
-  const handleDelete = (id) => {
+  const handleCancelAppointment = (id) => {
     if (window.confirm("Are you sure you want to delete this appointment?")) {
       dispatch(cancelAppointment(id));
     }
@@ -23,7 +23,9 @@ const MyAppointments = () => {
       {appointments.length === 0 ? (
         <p>No appointments found.</p>
       ) : (
-        <AppointmentTable appointments={appointments} handleDelete={handleDelete} />
+        <AppointmentTable appointments={appointments} 
+        handleCancelAppointment={handleCancelAppointment} 
+        />
       )}
     </div>
   );

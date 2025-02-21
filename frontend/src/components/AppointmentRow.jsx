@@ -1,7 +1,15 @@
 import React from "react";
-import { MdDeleteOutline } from "react-icons/md";
-import { TbEdit } from "react-icons/tb";
-
+import { TbEdit, TbCalendarCancel } from "react-icons/tb";
+import { useDispatch } from "react-redux";
+import { updateSelectedDoctor } from "../redux/actions/doctorAction.js";
+import { useNavigate } from "react-router-dom";
+import {
+  updateSelectedDate,
+  selectSlotTime,
+  setAppointmentDetails,
+  updateEditingAppointmentId,
+  updateMode
+} from "../redux/actions/appointmentAction";
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const day = date.getDate();
@@ -27,22 +35,58 @@ const formatTime = (dateString) => {
   });
 };
 
-const AppointmentRow = ({ appointment, handleDelete }) => {
+const AppointmentRow = ({ appointment, handleCancelAppointment }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const setReduxState = () => {
+    dispatch(
+      updateSelectedDoctor(appointment.doctorId._id, appointment.doctorId)
+    );
+    const onlyDateFromDate = appointment.date.split("T")[0];
+    dispatch(updateSelectedDate(onlyDateFromDate));
+    const onlyTimeFromDate = formatTime(appointment.date);
+    dispatch(selectSlotTime(onlyTimeFromDate));
+    dispatch(
+      setAppointmentDetails({
+        appointmentType: appointment.appointmentType,
+        patientName: appointment.patientName,
+        notes: appointment.notes,
+      })
+    );
+    dispatch(updateEditingAppointmentId(appointment._id));
+    dispatch(updateMode("edit"));
+
+    navigate("/");
+  };
+
+  const handleEditAppointment = () => {
+    setReduxState();
+  };
   return (
     <tr className="text-center">
-      <td className="p-3 border border-gray-300">{appointment.doctorId.name}</td>
-      <td className="p-3 border border-gray-300">{appointment.patientName}</td>
-      <td className="p-3 border border-gray-300">{formatDate(appointment.date)}</td>
-      <td className="p-3 border border-gray-300">{formatTime(appointment.date)}</td>
       <td className="p-3 border border-gray-300">
-        <button className="text-blue-500 hover:text-blue-700 mr-3">
-          <TbEdit size={18} />
+        {appointment.doctorId.name}
+      </td>
+      <td className="p-3 border border-gray-300">{appointment.patientName}</td>
+      <td className="p-3 border border-gray-300">
+        {formatDate(appointment.date)}
+      </td>
+      <td className="p-3 border border-gray-300">
+        {formatTime(appointment.date)}
+      </td>
+      <td className="p-3 border border-gray-300">
+        <button
+          className="text-blue-500 hover:text-blue-700 mr-3"
+          onClick={handleEditAppointment}
+        >
+          <TbEdit size={22} className="cursor-pointer" />
         </button>
         <button
           className="text-red-500 hover:text-red-700"
-          onClick={() => handleDelete(appointment._id)}
+          onClick={() => handleCancelAppointment(appointment._id)}
         >
-          <MdDeleteOutline size={18} />
+          <TbCalendarCancel size={22} className="cursor-pointer" />
         </button>
       </td>
     </tr>
