@@ -15,7 +15,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-blue-600 text-white py-3 px-6 shadow-md rounded-lg mb-8">
+    <nav className="bg-blue-600 text-white py-2 px-6 shadow-md rounded-lg mb-4">
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/">
           <h1 className="text-xl font-bold">The DoctorApp</h1>

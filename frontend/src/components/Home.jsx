@@ -65,7 +65,7 @@ const Home = () => {
         <span className="text-2xl">{getGreeting().icon} </span>
       </h1>
 
-      <div className="flex mt-10 gap-5 items-stretch min-h-screen">
+      <div className="flex mt-4 gap-2 items-stretch min-h-screen">
         <DoctorCard doctorOptions={doctorOptions} doctors={doctors}/>
         <Slots />
       </div>

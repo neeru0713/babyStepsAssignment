@@ -1,13 +1,16 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAppointmentDetails, bookAppointment } from "../../redux/actions/appointmentAction";
+import {
+  setAppointmentDetails,
+  bookAppointment,
+} from "../../redux/actions/appointmentAction";
 import Selector from "../form/Selector";
 import { Link, useNavigate } from "react-router-dom";
 const Appointment = () => {
   const dispatch = useDispatch();
   const appointment = useSelector((state) => state.appointment.appointment);
   const mode = useSelector((state) => state.appointment.mode);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const appointmentTypes = [
     { label: "Routine Check-Up", value: "Routine Check-Up" },
     { label: "General Consultation", value: "General Consultation" },
@@ -15,16 +18,16 @@ const Appointment = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    dispatch(setAppointmentDetails({ ...appointment , [name]: value }));
+    dispatch(setAppointmentDetails({ ...appointment, [name]: value }));
   };
 
   const onSelectorChange = (name, value, type) => {
-    dispatch(setAppointmentDetails({ ...appointment , [name]: value }));
+    dispatch(setAppointmentDetails({ ...appointment, [name]: value }));
   };
 
   const bookAppointmentHandler = () => {
-   dispatch(bookAppointment(mode))
-   navigate('/my-appointments')
+    dispatch(bookAppointment(mode));
+    navigate("/my-appointments");
   };
 
   return (
@@ -77,21 +80,23 @@ const Appointment = () => {
           ></textarea>
         </div>
 
-        <button
-          type="submit"
-          className="w-full bg-orange-600 text-white p-2 rounded-md hover:bg-orange-700 transition"
-          onClick={bookAppointmentHandler}
-        >
-          {mode === 'create' ? 'Create' : 'Edit'} Appointment
-        </button>
-      </div>
+        <div class="btn-group flex gap-4 items-center">
+          <Link to="/">
+            <button className="w-30 bg-gray-500 text-white p-2 rounded-lg hover:bg-gray-600 cursor-pointer transition">
+          
+              Go Back
+            </button>
+          </Link>
 
-      <Link to="/">
-        <button className="absolute bottom-[20%] left-[35%] bg-gray-500 text-white p-2 rounded-lg hover:bg-gray-600 cursor-pointer transition">
-          {" "}
-          Go Back{" "}
-        </button>
-      </Link>
+          <button
+            type="submit"
+            className="w-full bg-orange-600 text-white p-2 rounded-md hover:bg-orange-700 transition cursor-pointer"
+            onClick={bookAppointmentHandler}
+          >
+            {mode === "create" ? "Create" : "Edit"} Appointment
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
