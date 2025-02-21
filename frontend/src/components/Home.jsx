@@ -10,8 +10,8 @@ import {
   FaMoon,
 } from "react-icons/fa";
 
-import Slots from "./Slots.jsx";
-import DoctorCard from "./DoctorCard.jsx";
+import Slots from "./slot/Slots.jsx";
+import DoctorCard from "./doctor/DoctorCard.jsx";
 
 const Home = () => {
   const dispatch = useDispatch();

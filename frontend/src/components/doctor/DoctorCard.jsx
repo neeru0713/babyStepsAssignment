@@ -1,5 +1,5 @@
 import React from "react";
-import Selector from "./form/Selector.jsx";
+import Selector from "../form/Selector.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import {
   FaUserMd,
@@ -9,7 +9,7 @@ import {
   FaGraduationCap,
 } from "react-icons/fa";
 import DoctorInfoRow from "./DoctorInfoRow.jsx";
-import { updateSelectedDoctor } from "../redux/actions/doctorAction.js";
+import { updateSelectedDoctor } from "../../redux/actions/doctorAction.js";
 
 const DoctorCard = ({ doctorOptions, doctors }) => {
   const dispatch = useDispatch();

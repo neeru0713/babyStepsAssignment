@@ -1,7 +1,7 @@
 import React from "react";
 import { TbEdit, TbCalendarCancel } from "react-icons/tb";
 import { useDispatch } from "react-redux";
-import { updateSelectedDoctor } from "../redux/actions/doctorAction.js";
+import { updateSelectedDoctor } from "../../redux/actions/doctorAction.js";
 import { useNavigate } from "react-router-dom";
 import {
   updateSelectedDate,
@@ -9,7 +9,7 @@ import {
   setAppointmentDetails,
   updateEditingAppointmentId,
   updateMode
-} from "../redux/actions/appointmentAction";
+} from "../../redux/actions/appointmentAction.js";
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const day = date.getDate();

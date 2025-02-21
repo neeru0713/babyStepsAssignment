@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { WiSunrise, WiDaySunny, WiNightClear } from "react-icons/wi";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSlotTime } from "../redux/actions/appointmentAction";
+import { selectSlotTime } from "../../redux/actions/appointmentAction";
 const SlotsGrid = ({ slots }) => {
   // Group slots based on time ranges
 

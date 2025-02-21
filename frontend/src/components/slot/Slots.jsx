@@ -5,9 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import {
-  selectSlotTime,
   updateSelectedDate,
-} from "../redux/actions/appointmentAction";
+} from "../../redux/actions/appointmentAction";
 import SlotsGrid from "./SlotsGrid";
 
 const Slots = () => {

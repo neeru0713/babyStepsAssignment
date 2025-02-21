@@ -1,14 +1,11 @@
-import { useState } from "react";
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 import "./App.css";
 import Home from "./components/Home"; 
-import Appointment from "./components/Appointment";
+import Appointment from "./components/appointment/Appointment";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import MyAppointments from "./components/MyAppointments";
+import Navbar from "./components/nav/Navbar";
+import MyAppointments from "./components/appointment/MyAppointments";
 
 function App() {
   return (

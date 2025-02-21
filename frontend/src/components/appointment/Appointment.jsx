@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAppointmentDetails, bookAppointment } from "../redux/actions/appointmentAction";
-import Selector from "./form/Selector";
+import { setAppointmentDetails, bookAppointment } from "../../redux/actions/appointmentAction";
+import Selector from "../form/Selector";
 import { Link } from "react-router-dom";
 const Appointment = () => {
   const dispatch = useDispatch();
