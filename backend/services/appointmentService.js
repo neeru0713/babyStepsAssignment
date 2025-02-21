@@ -27,6 +27,7 @@ const getAppointmentById = async (id) => {
 async function createAppointment(appointmentBody) {
   try {
     appointmentBody.date = new Date(appointmentBody.date).toISOString();
+    console.log("Converted UTC Date:", appointmentBody.date); 
     const newAppointment = new Appointment(appointmentBody);
     await newAppointment.save();
     return newAppointment;
