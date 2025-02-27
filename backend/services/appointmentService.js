@@ -1,6 +1,6 @@
 const Appointment = require("../models/Appointment");
 const ApiError = require("../utils/ApiError");
-
+const moment = require("moment")
 async function getAppointments() {
   try {
     const Appointments = await Appointment.find({}).populate("doctorId");
@@ -26,6 +26,12 @@ const getAppointmentById = async (id) => {
 
 async function createAppointment(appointmentBody) {
   try {
+    console.log("before : ", appointmentBody.date)
+    appointmentBody.date = moment(appointmentBody.date).utc().toISOString();
+    console.log("Final UTC Date Before Save:", appointmentBody.date); 
+    console.log("Server Timezone:", Intl.DateTimeFormat().resolvedOptions().timeZone);
+console.log("Current Server Time:", new Date().toISOString());
+
     const newAppointment = new Appointment(appointmentBody);
     await newAppointment.save();
     return newAppointment;

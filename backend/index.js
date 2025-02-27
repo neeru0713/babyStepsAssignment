@@ -12,6 +12,10 @@ const ApiError = require("./utils/ApiError");
 
 dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
 
+app.get("/", (req, res) => {
+  res.send("Welcome to BabySteps API");
+});
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());

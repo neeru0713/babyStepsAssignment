@@ -71,7 +71,7 @@ const SlotsGrid = ({ slots }) => {
 
   return (
     <div className="p-4 bg-gray-50 rounded-xl w-full">
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-5">
         {morningSlots && morningSlots.length > 0 && (
           <div>
             <h3 className="text-md font-semibold text-gray-600 mb-2 pb-1 flex gap-2 items-center justify-center">

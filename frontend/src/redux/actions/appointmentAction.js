@@ -63,6 +63,10 @@ export const bookAppointment = (mode) => async (dispatch, getState) => {
     const doctorId = state.doctor.selectedDoctor;
     const selectedDate = state.appointment.selectedDate;
     const selectedSlot = state.appointment.selectedSlot;
+
+
+   
+
     const { appointmentType, patientName, notes } =
       state.appointment.appointment;
       let formattedDate;
@@ -72,9 +76,13 @@ export const bookAppointment = (mode) => async (dispatch, getState) => {
         formattedDate = selectedDate
       }
   
-    const appointmentDateTime = `${formattedDate}T${selectedSlot}:00`;
+    let appointmentDateTime = `${formattedDate}T${selectedSlot}:00`;
 
     const appointmentIdToEdit = state.appointment.appointmentIdToEdit;
+
+
+    appointmentDateTime = moment(appointmentDateTime).utc().toISOString();
+
 
     const payload = {
       doctorId,

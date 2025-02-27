@@ -39,7 +39,7 @@ const Slots = () => {
       {selectedDoctor ? (
         
         <div className="flex items-center gap-4">
-          <div className="mt-4 flex flex-col items-start gap-1 px-4">
+          <div className="mt-2 flex flex-col items-start gap-1 px-4">
             <label className="block text-gray-700 font-medium text-center">
               Select Appointment Date:
             </label>
@@ -53,7 +53,7 @@ const Slots = () => {
             />
           </div>
 
-          <div className="mt-4 flex flex-col items-start gap-1 px-4">
+          <div className="mt-2 flex flex-col items-start gap-1 px-4">
             <label className="block text-gray-700 font-medium text-center">
               Slot Duration
             </label>
@@ -76,7 +76,7 @@ const Slots = () => {
 
       {selectedDoctor && selectedDate && selectedSlot && (
         <Link to="/appointment">
-        <button className="absolute bottom-[18%] right-[14%] bg-orange-600 text-white p-2 rounded-lg hover:bg-orange-700 cursor-pointer transition">
+        <button className="w-full mx-1 my-2 bg-orange-600 text-white p-2 rounded-lg hover:bg-orange-700 cursor-pointer transition">
           Next : Book Appointment
         </button>
         </Link>

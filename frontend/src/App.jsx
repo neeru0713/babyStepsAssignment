@@ -3,7 +3,7 @@ import Home from "./components/Home";
 import Appointment from "./components/appointment/Appointment";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/nav/Navbar";
 import MyAppointments from "./components/appointment/MyAppointments";
 import Spinner from "./components/spinner/Spinner";
@@ -11,7 +11,7 @@ import Notification from "./components/notification/Notification";
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Provider store={store}>
         <Notification/>
         <Spinner/>
@@ -22,7 +22,7 @@ function App() {
           <Route path="/my-appointments" element={<MyAppointments />}></Route>
         </Routes>
       </Provider>
-    </BrowserRouter>
+    </Router>
   );
 }
 
