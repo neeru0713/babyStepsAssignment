@@ -1,8 +1,7 @@
 const Appointment = require("../models/Appointment");
 const ApiError = require("../utils/ApiError");
-const moment = require("moment")
+const moment = require("moment");
 const Stripe = require("stripe");
-const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
 
 async function getAppointments() {
   try {
@@ -29,10 +28,9 @@ const getAppointmentById = async (id) => {
 
 async function createAppointment(appointmentBody) {
   try {
-   console.log("inside the createAppointment", createAppointment);
     const session = getPayment(appointmentBody);
     // appointmentBody.date = moment(appointmentBody.date).utc().toISOString();
-   
+
     // const newAppointment = new Appointment(appointmentBody);
     // await newAppointment.save();
     return session;
@@ -48,36 +46,36 @@ const deleteAppointment = async (id) => {
       throw new ApiError(404, "Appointment not found");
     }
     await Appointment.deleteOne({ _id: id });
-    const appointmentsAfterDeleting = await Appointment.find({}).populate('doctorId');
+    const appointmentsAfterDeleting = await Appointment.find({}).populate(
+      "doctorId"
+    );
     return appointmentsAfterDeleting;
   } catch (error) {
     throw new ApiError(500, error.message || "Failed to delete appointment");
   }
 };
 
+async function editAppointment(id, body) {
+  try {
+    const appointmentToBeEdited = await Appointment.findById(id);
 
-  async function editAppointment(id, body) {
-    try {
-      const appointmentToBeEdited = await Appointment.findById(id);
-      
-      if (!appointmentToBeEdited) {
-        throw new ApiError(404, "Appointment not found");
-      }
-  
-      await Appointment.updateOne({ _id: id }, body);
-      
-      const appointmentAfterEditing = await Appointment.findById(id);
-      return appointmentAfterEditing;
-    } catch (error) {
-      throw new ApiError(500, error.message || "Failed to edit appointment");
+    if (!appointmentToBeEdited) {
+      throw new ApiError(404, "Appointment not found");
     }
+
+    await Appointment.updateOne({ _id: id }, body);
+
+    const appointmentAfterEditing = await Appointment.findById(id);
+    return appointmentAfterEditing;
+  } catch (error) {
+    throw new ApiError(500, error.message || "Failed to edit appointment");
+  }
 }
-  
 
 async function getPayment(body) {
   try {
+    const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
 
-    console.log("body", body);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -86,9 +84,9 @@ async function getPayment(body) {
           price_data: {
             currency: "inr",
             product_data: {
-              name: message,
+              name: body.message,
             },
-            unit_amount: consultationFee,
+            unit_amount: body.consultationFee*100,
           },
           quantity: 1,
         },
@@ -99,10 +97,9 @@ async function getPayment(body) {
 
     return session;
   } catch (error) {
-    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
+    throw new ApiError(404, error.message);
   }
 }
-  
 
 module.exports = {
   getAppointments,
