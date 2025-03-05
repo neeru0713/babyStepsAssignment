@@ -16,6 +16,8 @@ import { API_URL } from "../../config/config";
 import moment from "moment";
 import { hideSpinner, showSpinner } from "./spinnerAction";
 import { showNotification } from "./notificationAction";
+
+
 export const updateSelectedDate = (date) => async (dispatch, getState) => {
   try {
     const doctorId = getState().doctor.selectedDoctor;
@@ -63,10 +65,6 @@ export const bookAppointment = (mode) => async (dispatch, getState) => {
     const doctorId = state.doctor.selectedDoctor;
     const selectedDate = state.appointment.selectedDate;
     const selectedSlot = state.appointment.selectedSlot;
-
-
-   
-
     const { appointmentType, patientName, notes } =
       state.appointment.appointment;
       let formattedDate;
@@ -92,6 +90,11 @@ export const bookAppointment = (mode) => async (dispatch, getState) => {
       patientName,
       notes,
     };
+     
+    const payload2 = {
+      message: `Appointment with ${state.selectedDoctorDetails.name} `,
+      consultationFee: state.selectedDoctorDetails.consultationFee,
+    };
     let response;
     
     if (mode === "create") {
@@ -101,7 +104,7 @@ export const bookAppointment = (mode) => async (dispatch, getState) => {
       dispatch(showSpinner('Saving your updated appointment'))
       response = await axios.put(
         `${API_URL}/api/appointments/${appointmentIdToEdit}`,
-        payload
+        payload2
       );
     }
     dispatch(hideSpinner())

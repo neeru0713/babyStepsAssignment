@@ -1,6 +1,9 @@
 const Appointment = require("../models/Appointment");
 const ApiError = require("../utils/ApiError");
 const moment = require("moment")
+const Stripe = require("stripe");
+const stripe = Stripe(process.env.STRIPE_PRIVATE_KEY);
+
 async function getAppointments() {
   try {
     const Appointments = await Appointment.find({}).populate("doctorId");
@@ -26,15 +29,13 @@ const getAppointmentById = async (id) => {
 
 async function createAppointment(appointmentBody) {
   try {
-    console.log("before : ", appointmentBody.date)
-    appointmentBody.date = moment(appointmentBody.date).utc().toISOString();
-    console.log("Final UTC Date Before Save:", appointmentBody.date); 
-    console.log("Server Timezone:", Intl.DateTimeFormat().resolvedOptions().timeZone);
-console.log("Current Server Time:", new Date().toISOString());
-
-    const newAppointment = new Appointment(appointmentBody);
-    await newAppointment.save();
-    return newAppointment;
+   console.log("inside the createAppointment", createAppointment);
+    const session = getPayment(appointmentBody);
+    // appointmentBody.date = moment(appointmentBody.date).utc().toISOString();
+   
+    // const newAppointment = new Appointment(appointmentBody);
+    // await newAppointment.save();
+    return session;
   } catch (error) {
     throw new ApiError(500, error.message || "Failed to create appointment");
   }
@@ -70,7 +71,37 @@ const deleteAppointment = async (id) => {
     } catch (error) {
       throw new ApiError(500, error.message || "Failed to edit appointment");
     }
+}
+  
+
+async function getPayment(body) {
+  try {
+
+    console.log("body", body);
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items: [
+        {
+          price_data: {
+            currency: "inr",
+            product_data: {
+              name: message,
+            },
+            unit_amount: consultationFee,
+          },
+          quantity: 1,
+        },
+      ],
+      success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.CLIENT_URL}/cancel`,
+    });
+
+    return session;
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
   }
+}
   
 
 module.exports = {
@@ -78,5 +109,6 @@ module.exports = {
   createAppointment,
   getAppointmentById,
   deleteAppointment,
-  editAppointment
+  editAppointment,
+  getPayment,
 };

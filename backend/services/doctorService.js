@@ -112,7 +112,6 @@ const removeOverlappingSlots = (date, bookedAppointments, allSlots) => {
   }
 };
 
-
 const computeAvailableSlots = async (doctorId, date) => {
   try {
     // 1: Get Doctor's Working Hours
@@ -130,14 +129,14 @@ const computeAvailableSlots = async (doctorId, date) => {
     // 3. fetch all existing appointments of this doctor
     const bookedAppointments =
       await fetchBookedAppointmentsForDoctorForGivenDate(doctorId, date);
-   
-      // 4. Remove Overlapping Slots
+
+    // 4. Remove Overlapping Slots
     const newSlotsAfterRemovingOverlappingSlots = removeOverlappingSlots(
       date,
       bookedAppointments,
       allSlots
     );
-    
+
     return newSlotsAfterRemovingOverlappingSlots;
   } catch (error) {
     throw new ApiError(500, error.message);

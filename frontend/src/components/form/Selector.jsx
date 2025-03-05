@@ -26,7 +26,7 @@ const Selector = ({
         value={value}
         style={style}
         onChange={inputChangeHandler}
-        className="w-full py-[8px] px-2 border border-1 rounded-lg "
+        className="w-full py-[4px] px-2 border border-1 rounded-lg "
       >
         {options &&
           options.map((item, index) => (

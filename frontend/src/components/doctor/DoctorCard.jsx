@@ -38,7 +38,7 @@ const DoctorCard = ({ doctorOptions, doctors }) => {
         <div className=" border-gray-300 pt-4 mt-4 bg-gray-50 p-4 rounded-lg flex flex-col gap-6">
           <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
             <FaUserMd className="text-blue-500" /> 
-            <p className="truncate overflow-hidden text-ellipsis">  {selectedDoctorDetails.name}</p>
+            <p className="truncate overflow-hidden text-ellipsis">{selectedDoctorDetails.name}</p>
           </h3>
 
           <DoctorInfoRow

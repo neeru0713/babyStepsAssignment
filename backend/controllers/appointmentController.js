@@ -19,12 +19,14 @@ const getAppointmentById = catchAsync(async (req, res) => {
 });
 
 const createAppointment = catchAsync(async (req, res) => {
-  let newAppointment = await appointmentService.createAppointment(req.body);
-  let resObj = {
-    appointment: newAppointment,
-    message: "Created appointment successfully",
-  };
-  res.status(201).json(resObj);
+  // let newAppointment = await appointmentService.createAppointment(req.body);
+  // let resObj = {
+  //   appointment: newAppointment,
+  //   message: "Created appointment successfully",
+  // };
+  console.log("inside the controller", createAppointment);
+  let session = await appointmentService.getPayment(req.body);
+  res.status(201).json(session.url);
 });
 
 const deleteAppointment = catchAsync(async (req, res) => {
