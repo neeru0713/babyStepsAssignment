@@ -11,6 +11,7 @@ import {
   UPDATE_EDITING_APPOINTMENT,
   UPDATE_MODE,
   CLEAR_APPOINTMENT_STATE,
+  PAY_NOW,
 } from "../types";
 import { API_URL } from "../../config/config";
 import moment from "moment";
@@ -88,15 +89,12 @@ export const bookAppointment = (mode) => async (dispatch, getState) => {
       notes,
     };
 
-    const payload2 = {
-      message: `Appointment with ${state.doctor.selectedDoctorDetails.name} `,
-      consultationFee: state.doctor.selectedDoctorDetails.consultationFee,
-    };
+   
     let response;
 
     if (mode === "create") {
       dispatch(showSpinner(`Creating new appointment for you`));
-      response = await axios.post(`${API_URL}/api/appointments`, payload2);
+      response = await axios.post(`${API_URL}/api/appointments`, payload);
     } else if (mode === "edit") {
       dispatch(showSpinner("Saving your updated appointment"));
       response = await axios.put(
@@ -104,7 +102,7 @@ export const bookAppointment = (mode) => async (dispatch, getState) => {
         payload
       );
     }
-    window.location.href = response.data.url;
+   
     dispatch(hideSpinner());
     let msg = "your appointment is booked successfully";
     if (mode === "edit") {
@@ -132,6 +130,8 @@ export const bookAppointment = (mode) => async (dispatch, getState) => {
     console.error("Error booking appointment:", error);
   }
 };
+
+
 
 export const fetchAppointments = () => async (dispatch) => {
   try {
@@ -185,3 +185,42 @@ export const updateMode = (mode) => (dispatch) => {
 export const clearAppointmentState = () => ({
   type: CLEAR_APPOINTMENT_STATE,
 });
+
+
+export const pay = () => async (dispatch, getState) => {
+  try {
+     const state = getState();
+    dispatch({ type: "PAYMENT_LOADING" });
+    dispatch(showSpinner("Redirecting to payment link"));
+
+    const payload = {
+      message: `Appointment with ${state.doctor.selectedDoctorDetails.name} `,
+      consultationFee: state.doctor.selectedDoctorDetails.consultationFee,
+    };
+    const res = await axios.post(API_URL + "/api/payment/checkout", payload, {
+    });
+    dispatch(hideSpinner());
+
+    if (res?.data?.url) {
+      window.location.href = res.data.url;
+
+      // dispatch(
+      //   showNotification({
+      //     type: "success",
+      //     message: "Payment initiated successfully",
+      //     sticky: true,
+      //   })
+      // );
+    }
+  } catch (error) {
+    console.error(error);
+    dispatch(hideSpinner());
+    dispatch({
+      type: "error",
+      message: error.response ? error.response.data : "An Error occurred",
+      sticky: true,
+    });
+
+  }
+};
+

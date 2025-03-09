@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setAppointmentDetails,
   bookAppointment,
+  pay
 } from "../../redux/actions/appointmentAction";
 import Selector from "../form/Selector";
 import { Link, useNavigate } from "react-router-dom";
@@ -42,8 +43,7 @@ const Appointment = () => {
   };
 
   const bookAppointmentHandler = () => {
-    dispatch(bookAppointment(mode));
-    navigate("/my-appointments");
+    dispatch(pay());
   };
 
 function formattedDate(selectedDate) {

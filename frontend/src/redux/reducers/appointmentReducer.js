@@ -9,7 +9,7 @@ import {
   CANCEL_APPOINTMENT,
   UPDATE_EDITING_APPOINTMENT,
   UPDATE_MODE,
-  CLEAR_APPOINTMENT_STATE,
+  CLEAR_APPOINTMENT_STATE
 } from "../types";
 const initialState = {
   selectedDate: null,
@@ -65,6 +65,7 @@ const doctorReducer = (state = initialState, action) => {
         ...state,
         appointmentIdToEdit: action.payload,
       };
+    
 
     case CLEAR_APPOINTMENT_STATE:
       return initialState;

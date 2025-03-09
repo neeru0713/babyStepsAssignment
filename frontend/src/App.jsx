@@ -8,18 +8,20 @@ import Navbar from "./components/nav/Navbar";
 import MyAppointments from "./components/appointment/MyAppointments";
 import Spinner from "./components/spinner/Spinner";
 import Notification from "./components/notification/Notification";
+import SuccessPage from "./components/payment/SuccessPage";
 
 function App() {
   return (
     <Router>
       <Provider store={store}>
-        <Notification/>
-        <Spinner/>
-        <Navbar/>
+        <Notification />
+        <Spinner />
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/appointment" element={<Appointment />}></Route>
           <Route path="/my-appointments" element={<MyAppointments />}></Route>
+          <Route path="/success" element={<SuccessPage />}></Route>
         </Routes>
       </Provider>
     </Router>
