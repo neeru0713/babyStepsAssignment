@@ -4,13 +4,14 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const doctorRoutes = require("./routes/doctorRoutes")
-const appointmentRoutes = require("./routes/appointmentRoutes")
+const doctorRoutes = require("./routes/doctorRoutes");
+const appointmentRoutes = require("./routes/appointmentRoutes");
 const path = require("path");
 const { errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/ApiError");
+const paymentRoutes = require("./routes/paymentRoutes.js");
 
-dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
+dotenv.config({ path: path.resolve(__dirname, "..", ".env") });
 
 app.get("/", (req, res) => {
   res.send("Welcome to BabySteps API");
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/appointments", appointmentRoutes);
+app.use("/api/payment/", paymentRoutes);
 
 const mongoUrl = process.env.MONGODB_URL;
 mongoose
@@ -35,13 +37,13 @@ mongoose
     console.error("Error connecting to MongoDB:", error);
   });
 
-  app.use((req, res, next) => {
-    next(new ApiError(404, "Not found"));
-  });
-  
-  app.use(errorHandler);
+app.use((req, res, next) => {
+  next(new ApiError(404, "Not found"));
+});
 
-  const port = process.env.PORT || 8080; 
-  app.listen(port, () => {
+app.use(errorHandler);
+
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
