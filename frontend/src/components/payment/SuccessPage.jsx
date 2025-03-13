@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { bookAppointment } from "../../redux/actions/appointmentAction";
-import MyAppointments from "../appointment/MyAppointments";
+import BookingConfirmed from "../appointment/BookingConfirmed";
 
 const SuccessPage = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const SuccessPage = () => {
   }, [appointment]);
 
   return (
-    <MyAppointments/>
+    <BookingConfirmed/>
   )
 };
 

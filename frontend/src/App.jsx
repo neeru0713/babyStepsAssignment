@@ -9,6 +9,7 @@ import MyAppointments from "./components/appointment/MyAppointments";
 import Spinner from "./components/spinner/Spinner";
 import Notification from "./components/notification/Notification";
 import SuccessPage from "./components/payment/SuccessPage";
+import LandingPage from "./components/LandingPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/appointment" element={<Appointment />}></Route>
           <Route path="/my-appointments" element={<MyAppointments />}></Route>
           <Route path="/success" element={<SuccessPage />}></Route>
+          <Route path="/landing" element={<LandingPage />}></Route>
         </Routes>
       </Provider>
     </Router>
