@@ -58,14 +58,17 @@ const Carousel = () => {
         size={32}
       />
 
-      <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2">
+      <div className="fixed left-1/2 transform -translate-x-1/2 flex gap-2">
         {images.map((_, i) => (
-          <div
+          <button
             key={i}
-            className={`h-2 w-2 rounded-full transition-all duration-300 ${
-              i === index ? "bg-white" : "bg-gray-700"
-            }`}
-          ></div>
+            className={`h-2 ${
+              index === i
+                ? "w-6 rounded-md bg-blue-500"
+                : "w-2 rounded-full bg-gray-400"
+            } transition-all`}
+            onClick={() => setIndex(i)}
+          />
         ))}
       </div>
     </div>
