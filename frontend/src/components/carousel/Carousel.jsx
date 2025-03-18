@@ -31,9 +31,9 @@ const Carousel = () => {
  };
 
   return (
-    <div className="relative w-full overflow-hidden rounded-lg shadow-lg">
+    <div className="relative w-full overflow-hidden rounded-lg">
       <div
-        className="flex w-full transition-transform duration-500"
+        className="pb-6 flex w-full transition-transform duration-500 "
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         {images.map((src, i) => (
@@ -41,24 +41,23 @@ const Carousel = () => {
             key={i}
             src={src}
             alt={`Slide ${i + 1}`}
-            className="w-full h-[200px]  flex-shrink-0"
+            className="w-full h-[200px] flex-shrink-0 rounded-lg"
           />
         ))}
+
+        <FaCircleChevronLeft
+          onClick={prevSlide}
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-md hover:bg-gray-600 cursor-pointer"
+          size={32}
+        />
+
+        <FaCircleChevronRight
+          onClick={nextSlide}
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-md hover:bg-gray-600 cursor-pointer"
+          size={32}
+        />
       </div>
-
-      <FaCircleChevronLeft
-        onClick={prevSlide}
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-md hover:bg-gray-600 cursor-pointer"
-        size={32}
-      />
-
-      <FaCircleChevronRight
-        onClick={nextSlide}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-md hover:bg-gray-600 cursor-pointer"
-        size={32}
-      />
-
-      <div className="fixed left-1/2 transform -translate-x-1/2 flex gap-2">
+      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
         {images.map((_, i) => (
           <button
             key={i}

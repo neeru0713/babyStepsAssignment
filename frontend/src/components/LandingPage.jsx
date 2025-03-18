@@ -3,6 +3,8 @@ import Carousel from './carousel/Carousel'
 import Chips from "./Chips";
 import { FaChevronRight } from "react-icons/fa";
 import CardCarousel from "./carousel/CardCarousel";
+import Products from './Products';
+
 
 const LandingPage = () => {
   return (
@@ -43,6 +45,8 @@ const LandingPage = () => {
         />
       </div>
       <CardCarousel />
+      <img src="https://images.apollo247.in/images/home-screen/contentful/Circle_Banner_Web.png?tr=q-80,f-webp,w-800,dpr-1,c-at_max%20800w,%20https://images.apollo247.in/images/home-screen/contentful/Circle_Banner_Web.png?tr=q-80,f-webp,w-800,dpr-2,c-at_max%201600w,%20https://images.apollo247.in/images/home-screen/contentful/Circle_Banner_Web.png?tr=q-80,f-webp,w-800,dpr-3,c-at_max%202400w,%20https://images.apollo247.in/images/home-screen/contentful/Circle_Banner_Web.png?tr=q-80,f-webp,w-800,dpr-4,c-at_max%203200w,%20https://images.apollo247.in/images/home-screen/contentful/Circle_Banner_Web.png?tr=q-80,f-webp,w-800,dpr-5,c-at_max%204000w,%20https://images.apollo247.in/images/home-screen/contentful/Circle_Banner_Web.png?tr=q-80,f-webp,w-800,dpr-6,c-at_max%204800w" />
+      <Products/>
     </div>
   );
 }

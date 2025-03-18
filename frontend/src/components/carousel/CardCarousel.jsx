@@ -30,18 +30,18 @@ const CardCarousel = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="relative w-full overflow-hidden ">
+    <div className="flex relative card-carousel">
+      <div className="relative w-full overflow-hidden rounded-lg p-2">
         <div
-          className="flex transition-transform duration-500 w-full gap-4"
-          style={{ transform: `translateX(-${index * (100 / 3)}%)` }}
+          className="pb-6 flex transition-transform duration-500 w-full gap-4 rounded-lg"
+          style={{ transform: `translateX(-${index * (100 / 3)+1.7}%)` }}
         >
           {images.concat(images).map((src, i) => (
             <img
               key={i}
               src={src}
               alt={`slide ${i + 1}`}
-              className="w-1/3 h-[200px] flex-shrink-0 rounded-xl shadow-lg"
+              className="h-[200px] flex-shrink-0 rounded-xl"
             />
           ))}
         </div>
@@ -60,7 +60,7 @@ const CardCarousel = () => {
           <FaCircleChevronRight />
         </button>
       </div>
-      <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 flex gap-2">
+      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-2">
         {images.map((_, i) => (
           <button
             key={i}
