@@ -33,7 +33,7 @@ const CardCarousel = () => {
     <div className="flex relative card-carousel">
       <div className="relative w-full overflow-hidden rounded-lg p-2">
         <div
-          className="pb-6 flex transition-transform duration-500 w-full gap-4 rounded-lg"
+          className="pb-6 flex transition-transform duration-500 w-full gap-4 "
           style={{ transform: `translateX(-${index * (100 / 3)+1.7}%)` }}
         >
           {images.concat(images).map((src, i) => (
